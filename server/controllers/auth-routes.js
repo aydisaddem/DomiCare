@@ -71,6 +71,46 @@ module.exports = {
                                     10
                                 );
                                 var obj = {
+                                    type: "equipementsProvider",
+                                    firstName: data.firstName,
+                                    lastName: data.lastName,
+                                    email: data.email,
+                                    password: passwordHash,
+                                    adress: "",
+                                    city: "",
+                                    phoneNumber: data.phoneNumber,
+                                    gender: "",
+                                    dateOfBirth: "",
+                                    picture: "",
+                                };
+                                ServiceProvider.create(obj)
+                                    .then((user) => res.send(user))
+                                    .catch((err) => console.log(err));
+                            }
+                        }
+                    );
+                }
+            })
+            .catch((err) => console.log(err));
+    },
+    
+    SPSignUp: (req, res) => {
+        var data = req.body.formData;
+        ServiceProvider.findOne({ email: data.email })
+            .then((user) => {
+                if (user) {
+                    res.send("email address already exists");
+                } else {
+                    ServiceProvider.findOne({ email: data.email }).then(
+                        (user) => {
+                            if (user) {
+                                res.send("email address already exists");
+                            } else {
+                                const passwordHash = bcrypt.hashSync(
+                                    data.password,
+                                    10
+                                );
+                                var obj = {
                                     type: "serviceProvider",
                                     firstName: data.firstName,
                                     lastName: data.lastName,
@@ -93,6 +133,7 @@ module.exports = {
             })
             .catch((err) => console.log(err));
     },
+    
     Login: (req, res) => {
         const data = req.body.formData
         ServiceSeeker.findOne({ email: data.email })

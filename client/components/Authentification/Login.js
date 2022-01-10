@@ -14,12 +14,26 @@ import {
   Center,
   NativeBaseProvider,
 } from "native-base"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CredentialsContext } from './CredentialsContext.js';
 
 function Login (){
+    const navigation = useNavigation()
     const [formData, setData] = React.useState({});
     const [errors,  setErrors] = React.useState({});
-    const navigation = useNavigation()
-    
+    const {storedCredentials,setStoredCredentials}=React.useContext(CredentialsContext)
+
+    const persistLogin =(credentials)=>{
+      AsyncStorage
+      .setItem('domicareCredentials', JSON.stringify(credentials))
+      .then(()=>{
+        setStoredCredentials(credentials);
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    }
+  
     const validate =() =>{
       let validation = true;
       let errors = {};
@@ -43,7 +57,11 @@ function Login (){
             errors["email"]= 'Your email and password do not match !';
             setErrors(errors);
         }
-        else  navigation.navigate('Home', {userData : data})
+        else {
+       
+          persistLogin({userData : data});
+          navigation.navigate("Home")
+        } 
          }).catch((err)=>{
         console.log(err)
          })
@@ -60,7 +78,7 @@ function Login (){
         return (
             <NativeBaseProvider>
               <Center flex={1} px="3">
-              <Box safeArea p="2" py="8" w="90%" maxW="290">
+              <Box safeArea p="2" py="8" w="120%" maxW="300">
               <Heading
                 size="lg"
                 fontWeight="600"
@@ -118,6 +136,7 @@ function Login (){
                     }}
                     alignSelf="flex-end"
                     mt="1"
+                    onPress={()=>navigation.navigate('ResetPassword')}
                   >
                     Forget Password?
                   </Link>
@@ -141,7 +160,7 @@ function Login (){
                       fontWeight: "medium",
                       fontSize: "sm",
                     }}
-                    onPress={()=>navigation.navigate('SignUpType')}
+                    onPress={()=>navigation.navigate('SignUpAs')}
                   >
                     Sign Up
                   </Link>

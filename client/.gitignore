@@ -1,9 +1,5 @@
 /node_modules
 package-lock.json
-<<<<<<< HEAD
-
-=======
->>>>>>> dd5cc3175a2577309d566b72ee4a2780c947046d
 .expo/
 dist/
 npm-debug.*

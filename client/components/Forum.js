@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, ScrollView, Button } from "react-native";
 import axios from "axios";
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CredentialsContext } from './Authentification/CredentialsContext.js';
+
 const Forum = () => {
   const navigation = useNavigation();
   const [subjects, setData] = useState([
@@ -41,8 +45,7 @@ const Forum = () => {
   //   setData(result.data);
   // }, []);
 
-
-
+ 
 
   return (
     <View style={styles.container}>

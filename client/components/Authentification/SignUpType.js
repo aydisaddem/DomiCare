@@ -17,6 +17,7 @@ export default () => {
         setValue(nextValue)
       }}
     >
+   
       <Radio value='SignUpServiceSeeker'  size="lg" my={1}>
       Service seeker
       </Radio>
